@@ -9,7 +9,10 @@ function App() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [messageReceiveEventsList, setMessageReceiveEventsList] = useState<
     IEvent[]
-  >([]);
+  >(() => {
+    const storedEvents = localStorage.getItem("messages-list");
+    return storedEvents ? JSON.parse(storedEvents) : [];
+  });
 
   useEffect(() => {
     function onConnect() {
@@ -21,7 +24,14 @@ function App() {
     }
 
     function messageReceiveEvent(value: IEvent) {
-      setMessageReceiveEventsList((previous) => [...previous, value]);
+      setMessageReceiveEventsList((previous) => {
+        const newList = [...previous, value];
+        localStorage.setItem(
+          "messages-list",
+          JSON.stringify(newList.slice(-10))
+        );
+        return newList;
+      });
     }
 
     function generatingEvent(value: boolean) {
