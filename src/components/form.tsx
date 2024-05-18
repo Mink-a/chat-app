@@ -3,8 +3,9 @@ import { socket } from "../socket/socket";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
+import { toast } from "sonner";
 
-export function MyForm() {
+export function MyForm({ isConnected }: { isConnected: boolean }) {
   const [value, setValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,6 +21,7 @@ export function MyForm() {
 
     socket.timeout(1000).emit("message", message, () => {
       setIsLoading(false);
+      !isConnected && toast.error("Please connect to the server!");
     });
     setValue("");
   }

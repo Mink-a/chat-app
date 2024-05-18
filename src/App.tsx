@@ -44,7 +44,7 @@ function App() {
     <div className="flex flex-col h-screen">
       <ConnectionManager isConnected={isConnected} />
       <Events events={messageReceiveEventsList} isGenerating={isGenerating} />
-      <MyForm />
+      <MyForm isConnected={isConnected} />
     </div>
   );
 }

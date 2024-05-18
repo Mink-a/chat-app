@@ -33,7 +33,7 @@ const BotMessage = ({ data }: { data: IEvent }) => {
         <AvatarImage alt="Bot Avatar" src="/placeholder-avatar.jpg" />
         <AvatarFallback>B</AvatarFallback>
       </Avatar>
-      <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800">
+      <div className="bg-gray-200 dark:bg-gray-800 px-4 py-2 rounded-lg max-w-[70%]">
         <p className="text-sm">{data.text}</p>
       </div>
     </div>
