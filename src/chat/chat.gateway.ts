@@ -21,21 +21,47 @@ export class ChatGateway
 
   @WebSocketServer() io: Server;
 
-  afterInit() {
+  /**
+   * This method is called after the gateway is initialized.
+   * It logs a message indicating that the gateway has been initialized.
+   *
+   * @returns {void}
+   */
+  afterInit(): void {
     this.logger.log('Initialized');
   }
 
-  handleConnection(client: Socket) {
+  /**
+   * Handles a new client connection.
+   *
+   * @param {Socket} client - The socket of the connected client.
+   * @returns {void}
+   */
+  handleConnection(client: Socket): void {
     const { sockets } = this.io.sockets;
 
     this.logger.log(`Client id: ${client.id} connected`);
     this.logger.debug(`Number of connected clients: ${sockets.size}`);
   }
 
-  handleDisconnect(client: Socket) {
+  /**
+   * Handles a client disconnection.
+   *
+   * @param {Socket} client - The socket of the disconnected client.
+   * @returns {void}
+   */
+  handleDisconnect(client: Socket): void {
     this.logger.log(`Client id:${client.id} disconnected`);
   }
 
+  /**
+   * This method generates a quote by calling the LLM service and constructs a bot message.
+   * It emits a 'generating' event before the quote generation and another 'generating' event
+   * after the quote generation with the opposite boolean value.
+   *
+   * @param {string} text - The input text for the quote generation.
+   * @returns {Promise<IEvent>} - A promise that resolves to the bot message object.
+   */
   async generateQuote(text: string): Promise<IEvent> {
     this.io.emit('generating', true);
     const chain = await this.llm.quoteGenerator(text);
@@ -49,8 +75,18 @@ export class ChatGateway
     return botMessage;
   }
 
+  /**
+   * Handles a message event from a client.
+   *
+   * @param {Socket} client - The socket of the client that sent the message.
+   * @param {IEvent} data - The message data received from the client.
+   * @returns {Promise<{ event: string; data: IEvent; }>} - A promise that resolves to an object containing the event name and the bot message.
+   */
   @SubscribeMessage('message')
-  async handleMessage(client: Socket, data: IEvent) {
+  async handleMessage(
+    client: Socket,
+    data: IEvent,
+  ): Promise<{ event: string; data: IEvent }> {
     this.logger.log(`Message received from client id: ${client.id}`);
     /*
     data = {
