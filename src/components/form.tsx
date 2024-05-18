@@ -34,7 +34,7 @@ export function MyForm() {
         />
 
         <Button type="submit" disabled={isLoading} variant="secondary">
-          <PaperPlaneIcon className="h-6 w-4 -rotate-45" />
+          <PaperPlaneIcon className="h-4 w-4 -rotate-45" />
         </Button>
       </footer>
     </form>

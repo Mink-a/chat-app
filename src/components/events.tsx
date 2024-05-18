@@ -44,8 +44,8 @@ const BotIsGenerating = () => {
   return (
     <div className="flex items-end space-x-2">
       <Avatar>
-        <AvatarImage alt="User Avatar" src="/placeholder-avatar.jpg" />
-        <AvatarFallback>U</AvatarFallback>
+        <AvatarImage alt="Bpt Avatar" src="/placeholder-avatar.jpg" />
+        <AvatarFallback>B</AvatarFallback>
       </Avatar>
       <div className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800">
         <div className="flex items-center space-x-2 h-4">
