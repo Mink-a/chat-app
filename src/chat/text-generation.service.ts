@@ -5,8 +5,10 @@ import { HuggingFaceInference } from '@langchain/community/llms/hf';
 export class TextGenerationService {
   async quoteGenerator(input: string) {
     const model = new HuggingFaceInference({
-      model: 'noelmathewisaac/inspirational-quotes-distilgpt2',
-      apiKey: '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',
+      model:
+        process.env.LLM_MODEL ??
+        'noelmathewisaac/inspirational-quotes-distilgpt2',
+      apiKey: process.env.HF_TOKEN ?? '',
       maxTokens: 70,
     });
     const res = await model.invoke(input);
