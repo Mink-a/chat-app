@@ -21,4 +21,14 @@ export default defineConfig({
       },
     },
   },
+  preview: {
+    port: 8182,
+    strictPort: true,
+  },
+  server: {
+    port: 8182,
+    strictPort: true,
+    host: true,
+    origin: "http://0.0.0.0:8182",
+  },
 });
