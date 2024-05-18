@@ -10,4 +10,15 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: (p) =>
+          p.split("/").reverse()[
+            p.split("/").reverse().indexOf("node_modules") - 1
+          ],
+      },
+    },
+  },
 });
