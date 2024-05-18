@@ -10,6 +10,7 @@ import {
 
 import { Server, Socket } from 'socket.io';
 import { TextGenerationService } from './text-generation.service';
+import { IEvent } from './types';
 
 @WebSocketGateway({ cors: true })
 export class ChatGateway
@@ -35,7 +36,7 @@ export class ChatGateway
     this.logger.log(`Client id:${client.id} disconnected`);
   }
 
-  async generateQuote(text: string) {
+  async generateQuote(text: string): Promise<IEvent> {
     this.io.emit('generating', true);
     const chain = await this.llm.quoteGenerator(text);
     const botMessage = {
@@ -49,7 +50,7 @@ export class ChatGateway
   }
 
   @SubscribeMessage('message')
-  async handleMessage(client: Socket, data: any) {
+  async handleMessage(client: Socket, data: IEvent) {
     this.logger.log(`Message received from client id: ${client.id}`);
     /*
     data = {
