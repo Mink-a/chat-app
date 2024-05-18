@@ -1,6 +1,7 @@
 import { socket } from "../socket/socket";
 import { Button } from "@/components/ui/button";
 import { ConnectionState } from "./connection-state";
+import { ThemeToggle } from "./theme-toggle";
 
 export function ConnectionManager({ isConnected }: { isConnected: boolean }) {
   function connect() {
@@ -15,16 +16,17 @@ export function ConnectionManager({ isConnected }: { isConnected: boolean }) {
     <header className="flex items-center justify-between px-4 py-2 border-b">
       <h1 className="text-lg font-semibold">Quote Generator</h1>
       <ConnectionState isConnected={isConnected} />
-      <div className="space-x-2">
+      <div className="space-x-2 flex items-center">
         {isConnected ? (
-          <Button size="sm" variant="outline" onClick={disconnect}>
+          <Button variant="outline" onClick={disconnect}>
             Disconnect
           </Button>
         ) : (
-          <Button size="sm" variant="outline" onClick={connect}>
+          <Button variant="outline" onClick={connect}>
             Connect
           </Button>
         )}
+        <ThemeToggle />
       </div>
     </header>
   );
