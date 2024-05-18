@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { ConnectionManager } from "./components/connection-manager";
-import { ConnectionState } from "./components/connection-state";
-import { Events, IEvent } from "./components/events";
-import { MyForm } from "./components/form";
+import { ConnectionManager } from "@/components/connection-manager";
+import { Events, IEvent } from "@/components/events";
+import { MyForm } from "@/components/form";
 import { socket } from "./socket/socket";
 
 function App() {
@@ -42,10 +41,9 @@ function App() {
     };
   }, []);
   return (
-    <div className="App">
-      <ConnectionState isConnected={isConnected} />
+    <div className="flex flex-col h-screen">
+      <ConnectionManager isConnected={isConnected} />
       <Events events={messageReceiveEventsList} isGenerating={isGenerating} />
-      <ConnectionManager />
       <MyForm />
     </div>
   );

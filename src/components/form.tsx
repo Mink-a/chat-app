@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { socket } from "../socket/socket";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { PaperPlaneIcon } from "@radix-ui/react-icons";
 
 export function MyForm() {
   const [value, setValue] = useState("");
@@ -10,7 +13,7 @@ export function MyForm() {
     setIsLoading(true);
     const message = {
       text: value,
-      name: "user",
+      name: "User",
       id: `${socket.id}${Math.random()}`,
       socketID: socket.id,
     };
@@ -23,11 +26,17 @@ export function MyForm() {
 
   return (
     <form onSubmit={onSubmit}>
-      <input onChange={(e) => setValue(e.target.value)} />
+      <footer className="flex items-center space-x-2 p-2 border-t">
+        <Input
+          placeholder="Type a message"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
 
-      <button type="submit" disabled={isLoading}>
-        Submit
-      </button>
+        <Button type="submit" disabled={isLoading} variant="secondary">
+          <PaperPlaneIcon className="h-6 w-4 -rotate-45" />
+        </Button>
+      </footer>
     </form>
   );
 }
