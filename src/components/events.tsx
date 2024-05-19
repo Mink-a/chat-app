@@ -75,16 +75,18 @@ export function Events({ events, isGenerating }: EventsProps) {
   }
   return (
     <main className="flex-1 overflow-y-auto p-4 space-y-4">
-      {events.map((e) => {
-        if (e.name === "User") {
-          return <UserMessage key={e.id} data={e} />;
-        } else if (e.name === "Bot") {
-          return <BotMessage key={e.id} data={e} />;
-        } else {
-          return null;
-        }
-      })}
-      {isGenerating && <BotIsGenerating />}
+      <div className="mx-auto md:max-w-[70%] lg:max-w-[60%]">
+        {events.map((e) => {
+          if (e.name === "User") {
+            return <UserMessage key={e.id} data={e} />;
+          } else if (e.name === "Bot") {
+            return <BotMessage key={e.id} data={e} />;
+          } else {
+            return null;
+          }
+        })}
+        {isGenerating && <BotIsGenerating />}
+      </div>
     </main>
   );
 }

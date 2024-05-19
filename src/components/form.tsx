@@ -28,16 +28,18 @@ export function MyForm({ isConnected }: { isConnected: boolean }) {
 
   return (
     <form onSubmit={onSubmit}>
-      <footer className="flex items-center space-x-2 p-2 border-t">
-        <Input
-          placeholder="Type a message"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
+      <footer className="border-t">
+        <div className=" md:max-w-[70%] lg:max-w-[60%] mx-auto flex items-center space-x-2 p-2 ">
+          <Input
+            placeholder="Type a message"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
 
-        <Button type="submit" disabled={isLoading} variant="secondary">
-          <PaperPlaneIcon className="h-4 w-4 -rotate-45" />
-        </Button>
+          <Button type="submit" disabled={isLoading} variant="secondary">
+            <PaperPlaneIcon className="h-4 w-4 -rotate-45" />
+          </Button>
+        </div>
       </footer>
     </form>
   );
