@@ -1,35 +1,50 @@
 import { useEffect, useState } from "react";
 import { ConnectionManager } from "@/components/connection-manager";
-import { Events, IEvent } from "@/components/events";
+import { Events } from "@/components/events";
 import { MyForm } from "@/components/form";
 import { socket } from "./socket/socket";
+import { IMessage } from "./types/chat-types";
+import { Login } from "./components/login";
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [isGenerating, setIsGenerating] = useState(false);
   const [messageReceiveEventsList, setMessageReceiveEventsList] = useState<
-    IEvent[]
-  >(() => {
-    const storedEvents = localStorage.getItem("messages-list");
-    return storedEvents ? JSON.parse(storedEvents) : [];
+    IMessage[]
+  >([]);
+  const [user] = useState<{ name: string; id: string }>(() => {
+    const userInfo = localStorage.getItem("user-info");
+    return userInfo ? JSON.parse(userInfo) : { name: null, id: null };
+  });
+  const [room] = useState<{ name: string; id: string }>(() => {
+    const roomInfo = localStorage.getItem("room-info");
+    return roomInfo ? JSON.parse(roomInfo) : { name: null, id: null };
   });
 
   useEffect(() => {
     function onConnect() {
-      setIsConnected(true);
+      if (!user || !room) {
+        location.assign("/");
+      } else {
+        socket.emit("join_room", {
+          roomName: room.name,
+          user: { ...user, socketId: socket.id },
+        });
+        setIsConnected(true);
+      }
     }
 
     function onDisconnect() {
       setIsConnected(false);
     }
 
-    function messageReceiveEvent(value: IEvent) {
+    function messageReceiveEvent(value: IMessage) {
       setMessageReceiveEventsList((previous) => {
         const newList = [...previous, value];
-        localStorage.setItem(
-          "messages-list",
-          JSON.stringify(newList.slice(-10))
-        );
+        // localStorage.setItem(
+        //   "messages-list",
+        //   JSON.stringify(newList.slice(-10))
+        // );
         return newList;
       });
     }
@@ -49,7 +64,11 @@ function App() {
       socket.off("message", messageReceiveEvent);
       socket.off("generating", generatingEvent);
     };
-  }, []);
+  }, [room, user]);
+
+  if (!user.id || !user.name) {
+    return <Login />;
+  }
   return (
     <div className="flex flex-col h-screen">
       <ConnectionManager isConnected={isConnected} />

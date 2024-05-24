@@ -5,6 +5,7 @@ import { ChatGateway } from './chat/chat.gateway';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { join } from 'path';
       isGlobal: true,
       envFilePath: ['.env', '.env.example'],
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway],
