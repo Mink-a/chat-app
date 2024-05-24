@@ -10,11 +10,11 @@ export function MyForm({ isConnected }: { isConnected: boolean }) {
   const [value, setValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [user] = useState<{ name: string; id: string }>(() => {
-    const userInfo = localStorage.getItem("user-info");
+    const userInfo = sessionStorage.getItem("user-info");
     return userInfo ? JSON.parse(userInfo) : { name: null, id: null };
   });
   const [room] = useState<{ name: string; id: string }>(() => {
-    const roomInfo = localStorage.getItem("room-info");
+    const roomInfo = sessionStorage.getItem("room-info");
     return roomInfo ? JSON.parse(roomInfo) : { name: null, id: null };
   });
 

@@ -26,16 +26,16 @@ export function Login() {
   const [roomName, setRoomName] = useState("");
 
   const handleSignIn = () => {
-    localStorage.setItem(
+    sessionStorage.setItem(
       "user-info",
       JSON.stringify({ name: user, id: `${user}${Math.random()}` })
     );
-    localStorage.setItem(
+    sessionStorage.setItem(
       "room-info",
       JSON.stringify({ name: roomName, id: `${roomName}${Math.random()}` })
     );
     // should not use
-    location.reload();
+    location.assign("/");
   };
 
   return (

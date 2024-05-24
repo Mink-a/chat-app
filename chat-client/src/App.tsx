@@ -5,6 +5,7 @@ import { MyForm } from "@/components/form";
 import { socket } from "./socket/socket";
 import { IMessage } from "./types/chat-types";
 import { Login } from "./components/login";
+import { AppLayout } from "./components/layout/app-layout";
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -13,11 +14,11 @@ function App() {
     IMessage[]
   >([]);
   const [user] = useState<{ name: string; id: string }>(() => {
-    const userInfo = localStorage.getItem("user-info");
+    const userInfo = sessionStorage.getItem("user-info");
     return userInfo ? JSON.parse(userInfo) : { name: null, id: null };
   });
   const [room] = useState<{ name: string; id: string }>(() => {
-    const roomInfo = localStorage.getItem("room-info");
+    const roomInfo = sessionStorage.getItem("room-info");
     return roomInfo ? JSON.parse(roomInfo) : { name: null, id: null };
   });
 
@@ -70,11 +71,13 @@ function App() {
     return <Login />;
   }
   return (
-    <div className="flex flex-col h-screen">
-      <ConnectionManager isConnected={isConnected} />
-      <Events events={messageReceiveEventsList} isGenerating={isGenerating} />
-      <MyForm isConnected={isConnected} />
-    </div>
+    <AppLayout>
+      <div className="flex flex-col h-screen">
+        <ConnectionManager isConnected={isConnected} />
+        <Events events={messageReceiveEventsList} isGenerating={isGenerating} />
+        <MyForm isConnected={isConnected} />
+      </div>
+    </AppLayout>
   );
 }
 
